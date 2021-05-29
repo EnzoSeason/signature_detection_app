@@ -1,0 +1,26 @@
+services:
+  api:
+    build: ./api
+    ports:
+      - 8000:8000
+    volumes:
+      - ./api:/api
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - frontend_build:/frontend/build
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:3000
+    volumes:
+      - ./nginx/setup.conf:/etc/nginx/conf.d/default.conf:ro
+      - frontend_build:/var/www/frontend
+    depends_on:
+      - frontend
+      - api
+
+volumes:
+  frontend_build:
