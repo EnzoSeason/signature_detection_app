@@ -1,10 +1,10 @@
 services:
-  api:
-    build: ./api
+  backend:
+    build: ./backend
     ports:
       - 8000:8000
     volumes:
-      - ./api:/api
+      - ./backend:/backend
 
   frontend:
     build: ./frontend
@@ -20,7 +20,7 @@ services:
       - frontend_build:/var/www/frontend
     depends_on:
       - frontend
-      - api
+      - backend
 
 volumes:
   frontend_build:

@@ -53,7 +53,7 @@ RUN apt-get -qq update \
     && apt-get -qq autoremove \
     && apt-get -qq clean
 
-WORKDIR /api
+WORKDIR /backend
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
