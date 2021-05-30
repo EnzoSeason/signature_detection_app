@@ -1,3 +1,4 @@
+# prod config
 services:
   backend:
     build: ./backend
