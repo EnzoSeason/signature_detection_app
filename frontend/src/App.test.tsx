@@ -2,8 +2,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
 
-test("renders learn react link", () => {
+test("renders title", () => {
   render(<App />);
-  const hello = screen.getByText("hello");
-  expect(hello).toBeVisible;
+  const title = screen.getByText("Signature detection");
+  expect(title).toBeVisible;
 });
