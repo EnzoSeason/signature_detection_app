@@ -1,6 +1,7 @@
 services:
   backend:
     build: ./backend
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000
     ports:
       - 8000:8000
     volumes:
@@ -8,6 +9,7 @@ services:
 
   frontend:
     build: ./frontend
+    command: npm run build
     volumes:
       - frontend_build:/frontend/build
 

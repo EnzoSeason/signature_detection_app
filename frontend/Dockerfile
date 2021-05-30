@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:14-alpine
 
 WORKDIR /frontend
 
@@ -7,4 +7,3 @@ COPY package-lock.json .
 RUN npm ci --silent
 
 COPY . .
-RUN npm run build
