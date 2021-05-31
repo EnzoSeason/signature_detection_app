@@ -17,7 +17,7 @@ executors:
 
   backend-executor:
     docker:
-      - image: cimg/python:3.8
+      - image: jijieliu/signature_detection_backend
     working_directory: ~/signature_detection_app/backend 
 
 jobs:
