@@ -13,7 +13,6 @@ orbs:
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   frontend-test: 
-    working_directory: ~/signature_detection_app/frontend 
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
@@ -21,6 +20,7 @@ jobs:
       - image: cimg/node:14.17.0
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
+    working_directory: ~/signature_detection_app/frontend 
     steps:
       # Checkout the code as the first step.
       - checkout:
@@ -41,7 +41,9 @@ jobs:
     
     working_directory: ~/signature_detection_app/backend 
     steps:
-      - checkout
+      - checkout:
+          path: ~/signature_detection_app
+      
       - python/install-packages:
           pkg-manager: pip
       
