@@ -13,7 +13,7 @@ orbs:
 executors:
   frontend-executor:
     docker:
-      - image: $DOCKER_REGISTRY/$DOCKER_FRONTEND_IMAGE_NAME
+      - image: jijieliu/signature_detection_frontend
         auth:
           username: jijieliu
           password: $DOCKERHUB_PASSWORD
@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Run tests
           command: npm test
-  
+
   frontend-build-docker-image:
     executor: frontend-executor
     steps:
@@ -60,18 +60,18 @@ jobs:
       - run:
           name: Setup __BUILD_VERSION envvar
           command: |
-              echo "export __BUILD_VERSION=\"$(cat version.txt)\"" >> $BASH_ENV
+            echo "export __BUILD_VERSION=\"$(cat version.txt)\"" >> $BASH_ENV
       - docker/check:
-          registry: $DOCKER_REGISTRY
+          registry: jijieliu
       - docker/build:
-          image: $DOCKER_FRONTEND_IMAGE_NAME
+          image: signature_detection_frontend
           tag: $__BUILD_VERSION
-          registry: $DOCKER_REGISTRY
+          registry: jijieliu
       - docker/push:
-          image: $DOCKER_FRONTEND_IMAGE_NAME
+          image: signature_detection_frontend
           tag: $__BUILD_VERSION
-          registry: $DOCKER_REGISTRY
-  
+          registry: jijieliu
+
   backend-prepare-dependencies:
     executor: backend-executor
     steps:
@@ -115,4 +115,3 @@ workflows:
       # - backend-test:
       #     requires:
       #       - backend-prepare-dependencies
-
