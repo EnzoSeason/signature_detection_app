@@ -39,7 +39,7 @@ jobs:
     docker:
       - image: cimg/python:3.8
     
-    working_directory: ~/signature_detection_app/backend 
+    working_directory: ~/signature_detection_app/frontend 
     steps:
       - checkout:
           path: ~/signature_detection_app
