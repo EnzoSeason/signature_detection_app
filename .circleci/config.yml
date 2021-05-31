@@ -13,7 +13,7 @@ orbs:
 executors:
   frontend-executor:
     docker:
-      - image: cimg/node:14.17.0
+      - image: $DOCKER_REGISTRY/$DOCKER_FRONTEND_IMAGE_NAME
         auth:
           username: jijieliu
           password: $DOCKERHUB_PASSWORD
@@ -29,7 +29,8 @@ executors:
 
 jobs:
   frontend-prepare-dependencies:
-    executor: frontend-executor
+    machine:
+      image: ubuntu-1604:202004-01
     steps:
       - checkout:
           path: ~/signature_detection_app
