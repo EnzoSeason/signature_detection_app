@@ -41,9 +41,7 @@ jobs:
     
     working_directory: ~/signature_detection_app/backend 
     steps:
-      - checkout:
-          path: ~/signature_detection_app
-      
+      - checkout
       - python/install-packages:
           pkg-manager: pip
       
