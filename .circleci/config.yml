@@ -8,32 +8,45 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.1
   python: circleci/python@1.4
+  docker: circleci/docker@1.6.0
 
 executors:
   frontend-executor:
     docker:
       - image: cimg/node:14.17.0
+        auth:
+          username: jijieliu
+          password: $DOCKERHUB_PASSWORD
     working_directory: ~/signature_detection_app/frontend 
 
   backend-executor:
     docker:
       - image: jijieliu/signature_detection_backend
+        auth:
+          username: jijieliu
+          password: $DOCKERHUB_PASSWORD
     working_directory: ~/signature_detection_app/backend 
 
 jobs:
-  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+  frontend-prepare-dependencies:
+    executor: frontend-executor
+    steps:
+      - checkout:
+          path: ~/signature_detection_app
+      - run:
+          name: Compute version number
+          command: echo "0.0.${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1:0:7}" | tee version.txt
+      - node/install-packages
+      - persist_to_workspace:
+          root: frontend-workspace
+          paths:
+            - .
+      
   frontend-test: 
     executor: frontend-executor
     steps:
-      # Checkout the code as the first step.
-      - checkout:
-          path: ~/signature_detection_app
-      # Next, the node orb's install-packages step will install the dependencies from a package.json.
-      # The orb install-packages step will also automatically cache them for faster future runs.
-      - node/install-packages
-      # If you are using yarn instead npm, remove the line above and uncomment the two lines below.
-      # - node/install-packages:
-      #     pkg-manager: yarn 
+      - attach_workspace:
+          at: frontend-workspace
       - run:
           name: Run tests
           command: npm test
@@ -43,10 +56,8 @@ jobs:
     steps:
       - checkout:
           path: ~/signature_detection_app
-      
       - python/install-packages:
           pkg-manager: pip
-      
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
@@ -62,5 +73,3 @@ workflows:
     jobs:
       - frontend-test
       - backend-test
-      # For running simple node tests, you could optionally use the node/test job from the orb to replicate and replace the job above in fewer lines.
-      # - node/test
