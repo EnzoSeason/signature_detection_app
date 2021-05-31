@@ -61,16 +61,12 @@ jobs:
           name: Setup __BUILD_VERSION envvar
           command: |
             echo "export __BUILD_VERSION=\"$(cat version.txt)\"" >> $BASH_ENV
-      - docker/check:
-          registry: jijieliu
       - docker/build:
-          image: signature_detection_frontend
+          image: jijieliu/signature_detection_frontend
           tag: $__BUILD_VERSION
-          registry: jijieliu
       - docker/push:
-          image: signature_detection_frontend
+          image: jijieliu/signature_detection_frontend
           tag: $__BUILD_VERSION
-          registry: jijieliu
 
   backend-prepare-dependencies:
     executor: backend-executor
