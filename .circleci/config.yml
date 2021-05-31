@@ -17,7 +17,7 @@ executors:
 
   backend-executor:
     docker:
-      - image: jijieliu/python-opencv
+      - image: jijieliu/signature_detection_backend
     working_directory: ~/signature_detection_app/backend 
 
 jobs:
