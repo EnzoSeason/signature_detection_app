@@ -1,7 +1,7 @@
 # prod config
 services:
   backend:
-    build: ./backend
+    image: jijieliu/signature_detection_backend
     command: uvicorn src.main:app --host 0.0.0.0 --port 8000
     ports:
       - 8000:8000
@@ -9,9 +9,10 @@ services:
       - ./backend:/backend
 
   frontend:
-    build: ./frontend
+    image: jijieliu/signature_detection_frontend
     command: npm run build
     volumes:
+      - node_modules:/frontend/node_modules
       - frontend_build:/frontend/build
 
   nginx:
@@ -26,4 +27,5 @@ services:
       - backend
 
 volumes:
+  node_modules:
   frontend_build:
