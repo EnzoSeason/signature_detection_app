@@ -51,6 +51,26 @@ jobs:
           name: Run tests
           command: npm test
   
+  frontend-build-docker-image:
+    executor: frontend-executor
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Setup __BUILD_VERSION envvar
+          command: |
+              echo "export __BUILD_VERSION=\"$(cat version.txt)\"" >> $BASH_ENV
+      - docker/check:
+          registry: $DOCKER_REGISTRY
+      - docker/build:
+          image: $DOCKER_FRONTEND_IMAGE_NAME
+          tag: $__BUILD_VERSION
+          registry: $DOCKER_REGISTRY
+      - docker/push:
+          image: $DOCKER_FRONTEND_IMAGE_NAME
+          tag: $__BUILD_VERSION
+          registry: $DOCKER_REGISTRY
+  
   backend-prepare-dependencies:
     executor: backend-executor
     steps:
@@ -87,8 +107,11 @@ workflows:
       - frontend-test:
           requires:
             - frontend-prepare-dependencies
-      - backend-prepare-dependencies
-      - backend-test:
+      - frontend-build-docker-image:
           requires:
-            - backend-prepare-dependencies
+            - frontend-test
+      # - backend-prepare-dependencies
+      # - backend-test:
+      #     requires:
+      #       - backend-prepare-dependencies
 
