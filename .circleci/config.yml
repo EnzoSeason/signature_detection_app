@@ -7,6 +7,7 @@ orbs:
   # Orbs reduce the amount of configuration required for common tasks. 
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.1
+  python: circleci/python@1.2
 
 
 jobs:
@@ -33,6 +34,25 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+    
+    backend-test:
+      working_directory: ~/signature_detection_app/frontend
+      
+      docker:
+        - image: cimg/python:3.8
+      
+      steps:
+        - checkout:
+          path: ~/signature_detection_app
+        
+        - python/install-packages:
+          pkg-manager: pip
+        
+        - run:
+          name: Run tests
+          # This assumes pytest is installed via the install-package step above
+          command: pytest
+
 
 workflows:
   # Below is the definition of your workflow.
@@ -42,5 +62,6 @@ workflows:
   test: 
     jobs:
       - frontend-test
+      - backend-test
       # For running simple node tests, you could optionally use the node/test job from the orb to replicate and replace the job above in fewer lines.
       # - node/test
