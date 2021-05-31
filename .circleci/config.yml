@@ -9,6 +9,11 @@ orbs:
   node: circleci/node@4.1
   python: circleci/python@1.2
 
+executors:
+  python-executor:
+    docker:
+      - image: cimg/python:3.8
+    working_directory: ~/signature_detection_app/backend 
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -36,10 +41,7 @@ jobs:
           command: npm test
     
   backend-test:
-    docker:
-      - image: cimg/python:3.8
-    
-    working_directory: ~/signature_detection_app/backend 
+    executor: python-executor
     steps:
       - checkout:
           path: ~/signature_detection_app
