@@ -50,14 +50,27 @@ jobs:
       - run:
           name: Run tests
           command: npm test
-
-  backend-test:
+  
+  backend-prepare-dependencies:
     executor: backend-executor
     steps:
       - checkout:
           path: ~/signature_detection_app
+      - run:
+          name: Compute version number
+          command: echo "0.0.${CIRCLE_BUILD_NUM}-${CIRCLE_SHA1:0:7}" | tee version.txt
       - python/install-packages:
           pkg-manager: pip
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  backend-test:
+    executor: backend-executor
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
@@ -74,3 +87,8 @@ workflows:
       - frontend-test:
           requires:
             - frontend-prepare-dependencies
+      - backend-prepare-dependencies
+      - backend-test:
+          requires:
+            - backend-prepare-dependencies
+
