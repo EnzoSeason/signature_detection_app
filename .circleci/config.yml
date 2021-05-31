@@ -29,8 +29,7 @@ executors:
 
 jobs:
   frontend-prepare-dependencies:
-    machine:
-      image: ubuntu-1604:202004-01
+    executor: frontend-executor
     steps:
       - checkout:
           path: ~/signature_detection_app
@@ -53,7 +52,8 @@ jobs:
           command: npm test
 
   frontend-build-docker-image:
-    executor: frontend-executor
+    machine:
+      image: ubuntu-1604:202004-01
     steps:
       - attach_workspace:
           at: .
