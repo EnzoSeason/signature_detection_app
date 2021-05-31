@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import Copyright from "./components/Copyright";
+import SignatureLoader from "./components/SignatureDetection/SignatureLoader";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -41,7 +42,7 @@ function App() {
           </Typography>
         </Box>
         <Container maxWidth="xl" className={classes.container}>
-          {/* {children} */}
+          <SignatureLoader />
           <Box pt={10}>
             <Copyright />
           </Box>
