@@ -23,8 +23,7 @@ jobs:
     working_directory: ~/signature_detection_app/frontend 
     steps:
       # Checkout the code as the first step.
-      - checkout:
-          path: ~/signature_detection_app
+      - checkout
       # Next, the node orb's install-packages step will install the dependencies from a package.json.
       # The orb install-packages step will also automatically cache them for faster future runs.
       - node/install-packages
