@@ -36,11 +36,10 @@ jobs:
           command: npm test
     
   backend-test:
-    working_directory: ~/signature_detection_app/backend
-    
     docker:
       - image: cimg/python:3.8
     
+    working_directory: ~/signature_detection_app/backend 
     steps:
       - checkout:
           path: ~/signature_detection_app
