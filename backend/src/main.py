@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 from fastapi import FastAPI, File, HTTPException, UploadFile
 
+from src.cropper import Cropper
+from src.extractor import Extractor
+from src.judger import Judger
 from src.loader import Loader
 
 app = FastAPI()
@@ -24,4 +27,18 @@ async def signature_detection(file: UploadFile = File(...)):
     loader = Loader(low_threshold=(0, 0, 250), high_threshold=(255, 255, 255))
     mask = loader.get_mask(image)
 
-    return {"image_size": [mask.shape[1], mask.shape[0]]}
+    # extract the regions from the mask
+    extractor = Extractor(
+        outlier_weight=3, outlier_bias=100, amplfier=15, min_area_size=10
+    )
+    labeled_mask = extractor.extract(mask)
+
+    # crop the regions
+    cropper = Cropper(min_region_size=5000, border_ratio=0.1)
+    results = cropper.run(labeled_mask)
+
+    # judge the results
+    judger = Judger(size_ratio=[1, 4], pixel_ratio=[0.01, 1])
+    regions = judger.run(results)
+    
+    return {"image_size": [mask.shape[1], mask.shape[0]], "regions": regions}

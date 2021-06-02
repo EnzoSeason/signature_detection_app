@@ -20,4 +20,12 @@ def test_signature_detection_success():
             files={"file": ("test.txt", f, "image/jpeg")},
         )
     assert response.status_code == 200
-    assert response.json() == {"image_size": [1190, 1683]}
+
+    data = response.json()
+    assert data["image_size"] == [1190, 1683]
+    assert len(data["regions"]) == 1
+
+    region = data["regions"][0]
+    assert region["id"] == 1
+    assert region["signed"] == 1
+    assert region["box"] == [738, 1028, 217, 58]
