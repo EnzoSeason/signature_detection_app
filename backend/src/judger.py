@@ -53,6 +53,10 @@ class Judger:
         for idx, result in results.items():
             is_signed = self.judge(result["cropped_mask"])
             regions.append(
-                {"id": idx + 1, "signed": is_signed, "box": result["cropped_region"]}
+                {
+                    "id": idx + 1,
+                    "signed": 1 if is_signed else 0,
+                    "box": [int(x) for x in result["cropped_region"]],
+                }
             )
         return regions
