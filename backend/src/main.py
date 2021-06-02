@@ -4,6 +4,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 
 from src.cropper import Cropper
 from src.extractor import Extractor
+from src.judger import Judger
 from src.loader import Loader
 
 app = FastAPI()
@@ -36,4 +37,8 @@ async def signature_detection(file: UploadFile = File(...)):
     cropper = Cropper(min_region_size=5000, border_ratio=0.1)
     results = cropper.run(labeled_mask)
 
-    return {"image_size": [mask.shape[1], mask.shape[0]]}
+    # judge the results
+    judger = Judger(size_ratio=[1, 4], pixel_ratio=[0.01, 1])
+    regions = judger.run(results)
+    
+    return {"image_size": [mask.shape[1], mask.shape[0]], "regions": regions}
