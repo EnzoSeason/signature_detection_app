@@ -80,8 +80,6 @@ class Cropper:
                 and h < copy_img.shape[0]
                 and w < copy_img.shape[1]
             ):
-
-                # cv2.rectangle(copy_img, (x, y), (x + w, y + h), (155, 155, 0), 1)
                 boxes.append([x, y, w, h])
 
         np_boxes = np.array(boxes)
