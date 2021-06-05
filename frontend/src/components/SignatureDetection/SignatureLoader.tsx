@@ -6,13 +6,40 @@ import {
   Snackbar,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Alert } from "@material-ui/lab";
 import axios, { AxiosResponse, AxiosError } from "axios";
+import useSignatureDetectionStore from "./store";
 
 export default function SignatureLoader() {
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const setImageFile = useSignatureDetectionStore(
+    (state) => state.setImageFile
+  );
+  const setIsDetecting = useSignatureDetectionStore(
+    (state) => state.setIsDetecting
+  );
+  const setDetectionResult = useSignatureDetectionStore(
+    (state) => state.setDetectionResult
+  );
+  const setSelectedRegion = useSignatureDetectionStore(
+    (state) => state.setSelectedRegion
+  );
+  const setIsCanvasOpen = useSignatureDetectionStore(
+    (state) => state.setIsCanvasOpen
+  );
+
+  // clean up store before unmouting
+  useEffect(() => {
+    return () => {
+      setIsDetecting(false);
+      setImageFile(null);
+      setDetectionResult(null);
+      setSelectedRegion(null);
+      setIsCanvasOpen(false);
+    };
+  }, [])
 
   const uploadFileHandler = (event: any) => {
     let file: any;
@@ -27,6 +54,13 @@ export default function SignatureLoader() {
       setErrorMessage("Your image must be in JPEG or PNG format.");
       return;
     }
+
+    // init states
+    setIsDetecting(true);
+    setImageFile(file);
+    setDetectionResult(null);
+    setSelectedRegion(null);
+    setIsCanvasOpen(false);
     // send file to backend
     const data = new FormData();
     data.append("file", file, file.name);
@@ -37,9 +71,11 @@ export default function SignatureLoader() {
         },
       })
       .then((res: AxiosResponse) => {
-        console.log(res);
+        setIsDetecting(false);
+        setDetectionResult(res.data);
       })
       .catch((err: AxiosError) => {
+        setIsDetecting(false);
         if (err?.response?.data?.detail) {
           setErrorMessage(err.response.data.detail);
         } else {

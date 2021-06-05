@@ -17,10 +17,10 @@ export interface SignatureDetectionState extends State {
   detectionResult: DetectionResult | null;
   selectedRegion: Region | null;
   isCanvasOpen: boolean | null;
-  setImageFile: (file: File) => void;
+  setImageFile: (file: File | null) => void;
   setIsDetecting: (isDetecting: boolean) => void;
-  setDetectionResult: (detectionResult: DetectionResult) => void;
-  setSelectedRegion: (selectedRegion: Region) => void;
+  setDetectionResult: (detectionResult: DetectionResult | null) => void;
+  setSelectedRegion: (selectedRegion: Region | null) => void;
   setIsCanvasOpen: (isCanvasOpen: boolean) => void;
   removeRegion: (selectedRegion: Region) => void;
 }
@@ -31,11 +31,11 @@ const useSignatureDetectionStore = create<SignatureDetectionState>((set) => ({
   detectionResult: null,
   selectedRegion: null,
   isCanvasOpen: false,
-  setImageFile: (imageFile: File) => set({ imageFile }),
+  setImageFile: (imageFile: File | null) => set({ imageFile }),
   setIsDetecting: (isDetecting: boolean) => set({ isDetecting }),
-  setDetectionResult: (detectionResult: DetectionResult) =>
+  setDetectionResult: (detectionResult: DetectionResult | null) =>
     set({ detectionResult }),
-  setSelectedRegion: (selectedRegion: Region) => set({ selectedRegion }),
+  setSelectedRegion: (selectedRegion: Region | null) => set({ selectedRegion }),
   setIsCanvasOpen: (isCanvasOpen: boolean) => set({ isCanvasOpen }),
   removeRegion: (removedRegion: Region) =>
     set((state) => {
