@@ -12,6 +12,7 @@ import { Alert } from "@material-ui/lab";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import useSignatureDetectionStore from "./store";
 import DetectionImageCard from "./DetectionImageCard";
+import DetectionResultCard from "./DetectionResultCard";
 
 export const CARD_MIN_HEIGHT = 800;
 
@@ -119,7 +120,7 @@ export default function SignatureLoader() {
             <DetectionImageCard />
           </Grid>
           <Grid item sm={12} lg={6}>
-            {/* <DetectionResultCard /> */}
+            <DetectionResultCard />
           </Grid>
         </Grid>
       </Box>
