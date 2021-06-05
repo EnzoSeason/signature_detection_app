@@ -7,9 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useLayoutEffect, useRef, useState } from "react";
-// import SignatureCanvas from "./SignatureCanvas";
 import { CARD_MIN_HEIGHT } from "./SignatureLoader";
-// import SignatureRect from "./SignatureRect";
 import useSignatureDetectionStore, { Region } from "./store";
 
 const useStyles = makeStyles((theme: Theme) => ({
