@@ -11,6 +11,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Alert } from "@material-ui/lab";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import useSignatureDetectionStore from "./store";
+import DetectionImageCard from "./DetectionImageCard";
 
 export const CARD_MIN_HEIGHT = 800;
 
@@ -115,7 +116,7 @@ export default function SignatureLoader() {
       <Box component="div" mt={3}>
         <Grid container direction="row" spacing={5}>
           <Grid item sm={12} lg={6}>
-            {/* <DetectionImageCard /> */}
+            <DetectionImageCard />
           </Grid>
           <Grid item sm={12} lg={6}>
             {/* <DetectionResultCard /> */}

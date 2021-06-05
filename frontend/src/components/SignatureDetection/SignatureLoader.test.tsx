@@ -4,6 +4,12 @@ import axios from "axios";
 import SignatureLoader from "./SignatureLoader";
 
 jest.mock("axios");
+jest.mock("./DetectionImageCard", () => ({
+  __esModule: true,
+  default: () => {
+    return null;
+  },
+}));
 
 describe("Signature Loader", () => {
   let mockAxiosPost: jest.Mock;
