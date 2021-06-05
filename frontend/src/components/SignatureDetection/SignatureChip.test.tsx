@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
 import SignatureChip from "./SignatureChip";
@@ -25,7 +31,7 @@ describe("SignatureChip", () => {
     dragStartHandler = (region: Region) => {};
   });
 
-  test("should show whether the region is signed", () => {
+  test("should select the chip", async () => {
     renderHook(() => {
       const setDetectionResult = useSignatureDetectionStore(
         (state) => state.setDetectionResult
@@ -44,12 +50,14 @@ describe("SignatureChip", () => {
         dragStartHandler={dragStartHandler}
       />
     );
+    const chip = screen.getByText("Region 2: Signed");
+    expect(chip).toBeVisible;
 
-    const text = screen.getByText("Region 2: Signed");
-    expect(text).toBeVisible;
+    const box = screen.getByTestId("chip-box");
+    fireEvent.click(box);
   });
 
-  test("should remove region dialog", async () => {
+  test("should delete chip", async () => {
     renderHook(() => {
       const setDetectionResult = useSignatureDetectionStore(
         (state) => state.setDetectionResult
@@ -60,6 +68,7 @@ describe("SignatureChip", () => {
       };
       setDetectionResult(result);
     });
+
     render(
       <SignatureChip
         region={notSignedRegion}
@@ -68,13 +77,22 @@ describe("SignatureChip", () => {
       />
     );
 
+    // show dialog
     const button = screen.getByTestId("delete-region");
-    await act(async () => {
-      fireEvent.click(button);
+    fireEvent.click(button);
+    await waitFor(() => {
+      const alertTitle = screen.findByText(
+        "Do you want to remove this signature?"
+      );
+      expect(alertTitle).toBeVisible;
     });
-    const alertTitle = screen.findByText(
-      "Do you want to remove this signature?"
-    );
-    expect(alertTitle).toBeVisible;
+
+    // delete the chip
+    const agreeButton = screen.getByText("Agree");
+    expect(agreeButton).toBeVisible;
+    fireEvent.click(agreeButton);
+    await waitFor(() => {
+      expect(button).not.toBeVisible;
+    });
   });
 });

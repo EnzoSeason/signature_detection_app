@@ -41,7 +41,7 @@ export default function SignatureChip({
   const color = region.signed ? "secondary" : "primary";
   const icon = region.signed ? <CheckCircleIcon /> : <CancelIcon />;
   const variant =
-    selectedRegion?.id && region.id == selectedRegion.id
+    selectedRegion?.id && region.id === selectedRegion.id
       ? "default"
       : "outlined";
 
@@ -59,6 +59,7 @@ export default function SignatureChip({
   return (
     <Box
       component="span"
+      data-testid="chip-box"
       onClick={clickHandler}
       draggable={signed === region.signed}
       onDragStart={() => dragStartHandler(region)}
