@@ -6,7 +6,7 @@ import {
   Snackbar,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Alert } from "@material-ui/lab";
 import axios, { AxiosResponse, AxiosError } from "axios";
