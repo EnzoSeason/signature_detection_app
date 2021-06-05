@@ -41,7 +41,8 @@ export default function SignatureLoader() {
       setSelectedRegion(null);
       setIsCanvasOpen(false);
     };
-  }, [])
+    // eslint-disable-next-line
+  }, []);
 
   const uploadFileHandler = (event: any) => {
     let file: any;
