@@ -12,6 +12,8 @@ import { Alert } from "@material-ui/lab";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import useSignatureDetectionStore from "./store";
 
+export const CARD_MIN_HEIGHT = 800;
+
 export default function SignatureLoader() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const setImageFile = useSignatureDetectionStore(
