@@ -12,6 +12,7 @@ import useSignatureDetectionStore, { Region } from "./store";
 import { CARD_MIN_HEIGHT } from "./SignatureLoader";
 import DetectionDownload from "./DetectionDownload";
 import SignatureChip from "./SignatureChip";
+import CanvasToggler from "./CanvasToggler";
 
 const useStyles = makeStyles((theme: Theme) => ({
   card: {
@@ -66,7 +67,7 @@ export default function DetectionResultCard() {
         <Box component="div" mt={3}></Box>
         <DetectionDownload />
         <Box component="div" mt={3}></Box>
-        {/* <ToggleCanvas /> */}
+        <CanvasToggler />
         <Divider />
         <Box
           component="div"
