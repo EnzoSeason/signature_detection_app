@@ -27,5 +27,5 @@ def test_signature_detection_success():
 
     region = data["regions"][0]
     assert region["id"] == 1
-    assert region["signed"] == 1
+    assert region["signed"] == True
     assert region["box"] == [738, 1028, 217, 58]
