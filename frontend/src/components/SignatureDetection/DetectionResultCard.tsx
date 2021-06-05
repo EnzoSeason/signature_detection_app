@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import useSignatureDetectionStore, { Region } from "./store";
 import { CARD_MIN_HEIGHT } from "./SignatureLoader";
 import DetectionDownload from "./DetectionDownload";
+import SignatureChip from "./SignatureChip";
 
 const useStyles = makeStyles((theme: Theme) => ({
   card: {
@@ -77,7 +78,7 @@ export default function DetectionResultCard() {
         >
           <Typography variant="h6">Signed</Typography>
           <Box component="div" mt={1}></Box>
-          {/* {detectionResult
+          {detectionResult
             ? detectionResult.regions.map((region: Region) => (
                 <SignatureChip
                   key={region.id}
@@ -86,7 +87,7 @@ export default function DetectionResultCard() {
                   dragStartHandler={dragStartHandler}
                 />
               ))
-            : null} */}
+            : null}
         </Box>
         <Divider />
         <Box
@@ -99,7 +100,7 @@ export default function DetectionResultCard() {
         >
           <Typography variant="h6">Not signed</Typography>
           <Box component="div" mt={1}></Box>
-          {/* {detectionResult
+          {detectionResult
             ? detectionResult.regions.map((region: Region) => (
                 <SignatureChip
                   key={region.id}
@@ -108,7 +109,7 @@ export default function DetectionResultCard() {
                   dragStartHandler={dragStartHandler}
                 />
               ))
-            : null} */}
+            : null}
         </Box>
       </Container>
     </Card>
