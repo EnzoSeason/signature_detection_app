@@ -32,18 +32,6 @@ export default function SignatureLoader() {
     (state) => state.setIsCanvasOpen
   );
 
-  // clean up store before unmouting
-  useEffect(() => {
-    return () => {
-      setIsDetecting(false);
-      setImageFile(null);
-      setDetectionResult(null);
-      setSelectedRegion(null);
-      setIsCanvasOpen(false);
-    };
-    // eslint-disable-next-line
-  }, []);
-
   const uploadFileHandler = (event: any) => {
     let file: any;
     // get file
