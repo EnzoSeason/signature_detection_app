@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import useSignatureDetectionStore, { Region } from "./store";
 import { CARD_MIN_HEIGHT } from "./SignatureLoader";
+import DetectionDownload from "./DetectionDownload";
 
 const useStyles = makeStyles((theme: Theme) => ({
   card: {
@@ -62,7 +63,7 @@ export default function DetectionResultCard() {
     <Card className={classes.card}>
       <Container maxWidth="xl">
         <Box component="div" mt={3}></Box>
-        {/* <DetectionDownload /> */}
+        <DetectionDownload />
         <Box component="div" mt={3}></Box>
         {/* <ToggleCanvas /> */}
         <Divider />
