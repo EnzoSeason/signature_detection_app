@@ -13,10 +13,10 @@ export interface DetectionResult {
 
 export interface SignatureDetectionState extends State {
   imageFile: File | null;
-  isDetecting: boolean | null;
+  isDetecting: boolean;
   detectionResult: DetectionResult | null;
   selectedRegion: Region | null;
-  isCanvasOpen: boolean | null;
+  isCanvasOpen: boolean;
   setImageFile: (file: File | null) => void;
   setIsDetecting: (isDetecting: boolean) => void;
   setDetectionResult: (detectionResult: DetectionResult | null) => void;
