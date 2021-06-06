@@ -34,7 +34,7 @@ export default function SignatureLoader() {
     (state) => state.setIsCanvasOpen
   );
 
-  const uploadFileHandler = (event: any) => {
+  const inputChangeHandler = (event: any) => {
     let file: any;
     // get file
     if (event?.target?.files && event.target.files.length) {
@@ -48,6 +48,10 @@ export default function SignatureLoader() {
       return;
     }
 
+    uploadFile(file);
+  };
+
+  const uploadFile = (file: File) => {
     // init states
     setIsDetecting(true);
     setImageFile(file);
@@ -98,7 +102,7 @@ export default function SignatureLoader() {
               data-testid="button-file"
               type="file"
               accept="image/*"
-              onChange={uploadFileHandler}
+              onChange={inputChangeHandler}
               hidden
             />
             <label htmlFor="button-file">

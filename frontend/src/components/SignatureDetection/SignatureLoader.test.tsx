@@ -10,12 +10,6 @@ jest.mock("./DetectionImageCard", () => ({
     return null;
   },
 }));
-jest.mock("./DetectionResultCard", () => ({
-  __esModule: true,
-  default: () => {
-    return null;
-  },
-}));
 
 describe("Signature Loader", () => {
   let mockAxiosPost: jest.Mock;
