@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { CARD_MIN_HEIGHT } from "./SignatureLoader";
+import SignatureRect from "./SignatureRect";
 import useSignatureDetectionStore, { Region } from "./store";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -106,13 +107,16 @@ export default function DetectionImageCard() {
               className={classes.svg}
               preserveAspectRatio="none"
             >
-              {/* {detectionResult && svgRef?.current ? (
+              {detectionResult?.regions?.length &&
+              detectionResult?.image_size &&
+              svgRef?.current?.clientWidth &&
+              svgRef?.current?.clientHeight ? (
                 detectionResult.regions.map((region: Region) => {
                   const signedClass = region.signed
                     ? classes.signedBox
                     : classes.notSignedBox;
                   const selectedClass =
-                    selectedRegion?.id && selectedRegion.id == region.id
+                    selectedRegion?.id && selectedRegion.id === region.id
                       ? classes.selectedBox
                       : classes.notSelectedBox;
                   return (
@@ -122,8 +126,8 @@ export default function DetectionImageCard() {
                       className={`${signedClass} ${selectedClass}`}
                       image_size={detectionResult.image_size}
                       box={region.box}
-                      clientWidth={svgRef.current.clientWidth}
-                      clientHeight={svgRef.current.clientHeight}
+                      clientWidth={svgRef!.current!.clientWidth}
+                      clientHeight={svgRef!.current!.clientHeight}
                       clickHandler={() => setSelectedRegion(region)}
                     />
                   );
@@ -134,7 +138,7 @@ export default function DetectionImageCard() {
                   height="100%"
                   fill="rgba(0, 0, 0, 0.5)"
                 ></rect>
-              )} */}
+              )}
             </svg>
             {/* {detectionResult && isCanvasOpen ? <SignatureCanvas /> : null} */}
           </div>
