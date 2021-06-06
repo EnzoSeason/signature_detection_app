@@ -12,7 +12,6 @@ services:
     image: jijieliu/signature_detection_frontend
     command: npm run build
     volumes:
-      - node_modules:/frontend/node_modules
       - frontend_build:/frontend/build
 
   nginx:
@@ -27,5 +26,4 @@ services:
       - backend
 
 volumes:
-  node_modules:
   frontend_build:

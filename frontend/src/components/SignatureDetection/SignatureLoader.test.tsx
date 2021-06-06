@@ -4,6 +4,12 @@ import axios from "axios";
 import SignatureLoader from "./SignatureLoader";
 
 jest.mock("axios");
+jest.mock("./DetectionImageCard", () => ({
+  __esModule: true,
+  default: () => {
+    return null;
+  },
+}));
 
 describe("Signature Loader", () => {
   let mockAxiosPost: jest.Mock;
@@ -15,7 +21,10 @@ describe("Signature Loader", () => {
   test("should upload an image", async () => {
     let file = new File(["file"], "image.jpeg", { type: "image/jpeg" });
     mockAxiosPost.mockResolvedValueOnce({
-      data: { access: "ok" },
+      data: {
+        image_size: [1190, 1683],
+        regions: [{ id: 1, signed: true, box: [738, 1028, 217, 58] }],
+      },
     });
 
     render(<SignatureLoader />);
@@ -61,7 +70,7 @@ describe("Signature Loader", () => {
   });
 
   test("should handler api response error", async () => {
-    let file = new File(["file"], "image.jpeg", { type: "image/jpeg" });
+    const file = new File(["file"], "image.jpeg", { type: "image/jpeg" });
     mockAxiosPost.mockRejectedValueOnce({
       response: { data: { detail: "error" } },
     });

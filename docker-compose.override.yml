@@ -13,7 +13,6 @@ services:
     command: npm start
     volumes:
       - ./frontend:/frontend
-      - frontend_build:/frontend/build
 
   nginx:
     image: nginx:alpine
@@ -24,6 +23,3 @@ services:
     depends_on:
       - frontend
       - backend
-
-volumes:
-  node_modules:

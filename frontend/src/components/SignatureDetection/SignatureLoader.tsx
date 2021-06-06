@@ -10,11 +10,31 @@ import React, { useState } from "react";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { Alert } from "@material-ui/lab";
 import axios, { AxiosResponse, AxiosError } from "axios";
+import useSignatureDetectionStore from "./store";
+import DetectionImageCard from "./DetectionImageCard";
+import DetectionResultCard from "./DetectionResultCard";
+
+export const CARD_MIN_HEIGHT = 800;
 
 export default function SignatureLoader() {
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const setImageFile = useSignatureDetectionStore(
+    (state) => state.setImageFile
+  );
+  const setIsDetecting = useSignatureDetectionStore(
+    (state) => state.setIsDetecting
+  );
+  const setDetectionResult = useSignatureDetectionStore(
+    (state) => state.setDetectionResult
+  );
+  const setSelectedRegion = useSignatureDetectionStore(
+    (state) => state.setSelectedRegion
+  );
+  const setIsCanvasOpen = useSignatureDetectionStore(
+    (state) => state.setIsCanvasOpen
+  );
 
-  const uploadFileHandler = (event: any) => {
+  const inputChangeHandler = (event: any) => {
     let file: any;
     // get file
     if (event?.target?.files && event.target.files.length) {
@@ -27,6 +47,17 @@ export default function SignatureLoader() {
       setErrorMessage("Your image must be in JPEG or PNG format.");
       return;
     }
+
+    uploadFile(file);
+  };
+
+  const uploadFile = (file: File) => {
+    // init states
+    setIsDetecting(true);
+    setImageFile(file);
+    setDetectionResult(null);
+    setSelectedRegion(null);
+    setIsCanvasOpen(false);
     // send file to backend
     const data = new FormData();
     data.append("file", file, file.name);
@@ -37,9 +68,11 @@ export default function SignatureLoader() {
         },
       })
       .then((res: AxiosResponse) => {
-        console.log(res);
+        setIsDetecting(false);
+        setDetectionResult(res.data);
       })
       .catch((err: AxiosError) => {
+        setIsDetecting(false);
         if (err?.response?.data?.detail) {
           setErrorMessage(err.response.data.detail);
         } else {
@@ -69,7 +102,7 @@ export default function SignatureLoader() {
               data-testid="button-file"
               type="file"
               accept="image/*"
-              onChange={uploadFileHandler}
+              onChange={inputChangeHandler}
               hidden
             />
             <label htmlFor="button-file">
@@ -88,10 +121,10 @@ export default function SignatureLoader() {
       <Box component="div" mt={3}>
         <Grid container direction="row" spacing={5}>
           <Grid item sm={12} lg={6}>
-            {/* <DetectionImageCard /> */}
+            <DetectionImageCard />
           </Grid>
           <Grid item sm={12} lg={6}>
-            {/* <DetectionResultCard /> */}
+            <DetectionResultCard />
           </Grid>
         </Grid>
       </Box>

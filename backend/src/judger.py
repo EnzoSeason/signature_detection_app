@@ -55,7 +55,7 @@ class Judger:
             regions.append(
                 {
                     "id": idx + 1,
-                    "signed": 1 if is_signed else 0,
+                    "signed": True if is_signed else False,
                     "box": [int(x) for x in result["cropped_region"]],
                 }
             )
