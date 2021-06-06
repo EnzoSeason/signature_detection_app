@@ -1,9 +1,9 @@
 import {
-  act,
   fireEvent,
   render,
   screen,
   waitFor,
+  waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
@@ -31,7 +31,31 @@ describe("SignatureChip", () => {
     dragStartHandler = (region: Region) => {};
   });
 
-  test("should select the chip", async () => {
+  test("can drag the chip", async () => {
+    renderHook(() => {
+      const setDetectionResult = useSignatureDetectionStore(
+        (state) => state.setDetectionResult
+      );
+      const result: DetectionResult = {
+        image_size: [10, 10],
+        regions: [signedRegion],
+      };
+      setDetectionResult(result);
+    });
+
+    render(
+      <SignatureChip
+        region={signedRegion}
+        signed={true}
+        dragStartHandler={dragStartHandler}
+      />
+    );
+    const box = screen.getByTestId("chip-box");
+    fireEvent.dragStart(box);
+    expect(dragStartHandler).toHaveBeenCalled;
+  });
+
+  test("can click the chip", async () => {
     renderHook(() => {
       const setDetectionResult = useSignatureDetectionStore(
         (state) => state.setDetectionResult
@@ -55,9 +79,10 @@ describe("SignatureChip", () => {
 
     const box = screen.getByTestId("chip-box");
     fireEvent.click(box);
+    expect(chip).toBeVisible;
   });
 
-  test("should delete chip", async () => {
+  test("can delete chip", async () => {
     renderHook(() => {
       const setDetectionResult = useSignatureDetectionStore(
         (state) => state.setDetectionResult
@@ -93,6 +118,47 @@ describe("SignatureChip", () => {
     fireEvent.click(agreeButton);
     await waitFor(() => {
       expect(button).not.toBeVisible;
+    });
+  });
+
+  test("can close the dialog", async () => {
+    renderHook(() => {
+      const setDetectionResult = useSignatureDetectionStore(
+        (state) => state.setDetectionResult
+      );
+      const result: DetectionResult = {
+        image_size: [10, 10],
+        regions: [notSignedRegion],
+      };
+      setDetectionResult(result);
+    });
+
+    render(
+      <SignatureChip
+        region={notSignedRegion}
+        signed={false}
+        dragStartHandler={dragStartHandler}
+      />
+    );
+
+    // show dialog
+    const button = screen.getByTestId("delete-region");
+    fireEvent.click(button);
+    await waitFor(() => {
+      const alertTitle = screen.findByText(
+        "Do you want to remove this signature?"
+      );
+      expect(alertTitle).toBeVisible;
+    });
+
+    // close dialog
+    const disagreeButton = screen.getByText("Disagree");
+    fireEvent.click(disagreeButton);
+    await waitFor(() => {
+      const alertTitle = screen.findByText(
+        "Do you want to remove this signature?"
+      );
+      expect(alertTitle).not.toBeVisible;
     });
   });
 });
