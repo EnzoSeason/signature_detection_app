@@ -70,7 +70,7 @@ describe("Signature Loader", () => {
   });
 
   test("should handler api response error", async () => {
-    let file = new File(["file"], "image.jpeg", { type: "image/jpeg" });
+    const file = new File(["file"], "image.jpeg", { type: "image/jpeg" });
     mockAxiosPost.mockRejectedValueOnce({
       response: { data: { detail: "error" } },
     });
