@@ -12,7 +12,7 @@ orbs:
 executors:
   frontend-executor:
     docker:
-      - image: jijieliu/signature_detection_frontend
+      - image: cimg/node:14.17.0
     working_directory: ~/signature_detection_app/frontend
 
   backend-executor:
