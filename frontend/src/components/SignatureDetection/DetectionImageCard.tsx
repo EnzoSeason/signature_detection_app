@@ -81,6 +81,8 @@ export default function DetectionImageCard() {
   );
   const [svgSize, setSvgSize] = useState([1, 1]);
 
+  // update the size of image and SignatureRect
+  // when the window size is changed.
   useLayoutEffect(() => {
     function updateSize() {
       if (svgRef?.current) {
