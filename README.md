@@ -62,10 +62,41 @@ The application is composed by 3 parts.
 
 For now, no database is connected. It's very easy to extend with `docker-compose`.
 
+## Testing
+
+- Frontend:
+
+  CRA includes the testing-library.
+
+  To test the file you create or modify, run:
+
+  ```command
+  cd signature_detection_app/frontend
+  npm test -- --coverage
+  ```
+
+  To test all the files, run:
+
+  ```command
+  cd signature_detection_app/frontend
+  npm test -- --watchAll=false --coverage
+  ```
+
+- backend:
+
+  I uses `pytest` and `coverage` for backend testing.
+
+  To see the test coverage, run:
+
+  ```command
+  cd signature_detection_app/frontend
+  source backend-coverage.sh 
+  ```
+
 ## Future reading
 
 If you are interested in how this project is created, you can check the article I wrote, [Innovation project: from Lab to Production](https://liujijieseason.medium.com/innovation-project-from-lab-to-production-5232e88bd6fa).
 
-If you want to know more about the signature detection algorithm, there is a repo I created, [signature_detection](https://github.com/EnzoSeason/signature_detection). It includes explanation and Jupyter notebooks to play with.
+If you want to know more about the signature detection algorithm, there is a repo I created, [signature_detection](https://github.com/EnzoSeason/signature_detection). It includes the explanations and Jupyter notebooks to play with.
 
-If you want to use signature detection in your project, check the package, (Signature Detection)[https://pypi.org/project/signature-detect/]. It supported the signature detection from both **images** and **PDF files**.
+If you want to use signature detection in your project, check this package, [signature-detect](https://pypi.org/project/signature-detect/). It supports the signature detection from both **images** and **PDF files**.
