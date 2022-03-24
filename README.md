@@ -12,8 +12,6 @@ There are 3 features.
 
 In the end, user can download the result as a json file.
 
-There is a demo on my website, [Signature Detection](https://seasonliu.com/station/signature-detection).
-
 ### Detect the signature
 
 ![detect](./img/detect.gif)
