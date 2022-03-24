@@ -1,6 +1,8 @@
-# signature_detection_app
+# Signature Detection App
 
 A web application for signature detection.
+
+It's based on the [signature_detection tool](https://github.com/EnzoSeason/signature_detection) I created.
 
 There are 3 features.
 
