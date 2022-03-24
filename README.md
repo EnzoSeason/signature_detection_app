@@ -2,7 +2,7 @@
 
 A web application for signature detection.
 
-It's based on the [signature_detection tool](https://github.com/EnzoSeason/signature_detection) I created.
+It's based on the [signature detection tool](https://github.com/EnzoSeason/signature_detection) I created.
 
 There are 3 features.
 
